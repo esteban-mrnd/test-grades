@@ -289,3 +289,91 @@ shamanism_counts |>
 ```
 
 
+### Question 16
+
+
+```{r}
+dist_shamanism <- shamanism_counts |>
+  summarise(n = n(), .by = nb_grades)
+
+dist_shamanism |>
+  ggplot(aes(x = nb_grades, y = n)) +
+  geom_col() +
+  labs(
+    x = "Number of grades in Shamanism and Spirit Communication",
+    y = "Number of students",
+    title = "Distribution of grades in Shamanism and Spirit Communication"
+  )
+
+
+```
+
+
+### Question 17
+
+
+```{r}
+shamanism_counts |>
+  ggplot(aes(x = group, y = nb_grades)) +
+  geom_boxplot() +
+  labs(
+    x = "Group",
+    y = "Number of grades in Shamanism",
+    title = "Does the number of grades in Shamanism depend on the group?"
+  )
+
+```
+
+
+
+### Question 18
+
+```{r}
+shamanism_counts <- grades_full |>
+  filter(course == "Shamanism and Spirit Communication") |>
+  filter(!is.na(grade)) |>
+  summarise(nb_grades = n(), .by = c(id, group, sex))
+
+shamanism_counts |>
+  ggplot(aes(x = group, y = nb_grades, fill = sex)) +
+  geom_boxplot() +
+  labs(
+    x = "Group",
+    y = "Number of grades in Shamanism",
+    fill = "Sex",
+    title = "Does the number of grades depend on group and sex?"
+  )
+
+
+```
+
+# Grade Analysis 
+
+
+### Question 19
+
+```{r}
+student_course_avg <- grades_full |>
+  filter(!is.na(grade)) |>
+  summarise(
+    avg_grade = mean(grade),
+    .by = c(id, group, course)
+  )
+
+grades_wide <- student_course_avg |>
+  pivot_wider(
+    id_cols    = c(id, group),
+    names_from  = course,
+    values_from = avg_grade
+  )
+s
+```
+
+
+
+
+
+
+
+
+
