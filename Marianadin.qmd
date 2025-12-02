@@ -222,6 +222,11 @@ grades_full |>
   )
 
 ```
+The average grade is slightly lower in the first semester, the standard deviation is also lower in the first semester. 
+
+
+
+
 # Attendance Analysis
 
 
@@ -272,6 +277,9 @@ grades_per_student |>
   )
 
 ```
+
+This graph shows that male students tends to attend more exams than female students but that the number of students who attended every exam is almost equal for both sex.
+
 
 
 ### Question 15
@@ -402,7 +410,7 @@ grades_wide |>
 ```
 
 
-### Question 20
+### Question 21
 
 ```{r}
 cor_dm_sham_by_group <- grades_wide |>
@@ -418,7 +426,7 @@ knitr::kable(cor_dm_sham_by_group)
 
 ```
 
-### Question 21
+### Question 22
 
 ```{r}
 best_group <- cor_dm_sham_by_group |>
@@ -444,7 +452,7 @@ grades_wide |>
 
 ```
 
-### Question 22
+### Question 23
 
 
 ```{r}
@@ -465,7 +473,117 @@ final_grades <- grades_wide2 |>
   arrange(desc(final_grade))
 
 
+final_grades |>
+  slice_head(n = 5) |>
+  knitr::kable()
+
+
 ```
+
+
+### Question 24
+
+```{r}
+final_grades |>
+  ggplot(aes(x = group, y = final_grade)) +
+  geom_boxplot() +
+  labs(
+    x = "Group",
+    y = "Final grade",
+    title = "Distribution of final grades by group"
+  )
+
+```
+
+
+### Question 25
+
+```{r}
+final_grades |>
+  ggplot(aes(x = group, y = final_grade, fill = sex)) +
+  geom_boxplot(alpha = 0.7) +
+  labs(
+    x = "Group",
+    y = "Final grade",
+    fill = "Sex",
+    title = "Final grade by group and sex"
+  )
+
+```
+
+
+
+### Question 26
+
+```{r}
+student_course_avg <- grades_full |>
+  filter(!is.na(grade)) |>
+  summarise(
+    course_avg = mean(grade),
+    .by = c(id, group, sex, course, semester)
+  )
+
+
+has_low_course <- student_course_avg |>
+  summarise(
+    any_too_low = any(course_avg < 5),
+    .by = id
+  )
+
+student_semesters <- student_course_avg |>
+  summarise(
+    semester_avg = mean(course_avg),
+    .by = c(id, semester)
+  ) |>
+  pivot_wider(
+    names_from  = semester,
+    values_from = semester_avg,
+    names_glue  = "semester_{semester}"
+  )
+
+
+pass_table <- final_grades |>
+  inner_join(has_low_course,    by = "id") |>
+  inner_join(student_semesters, by = "id") |>
+  mutate(
+    pass = (!any_too_low) &
+           (semester_1 >= 10) &
+           (semester_2 >= 10)
+  ) |>
+  select(id, group, final_grade, pass) |>
+  arrange(desc(final_grade))
+
+pass_table |>
+  arrange(desc(id)) |>
+  slice_head(n = 5) |>
+  knitr::kable()
+
+```
+
+
+
+
+
+
+### Question 27
+
+
+
+```{r}
+fail_but_good <- pass_table |>
+  filter(!pass, final_grade >= 10) |>
+  nrow()
+
+```
+
+There are `r fail_but_good` students who do not pass despite having a final grade ≥ 10.
+
+### Question 28
+
+
+
+
+
 
 
 
