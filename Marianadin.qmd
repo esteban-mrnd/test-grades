@@ -4,7 +4,6 @@ author: "Esteban Marianadin"
 format: html
 ---
 
-
 ```{r}
 library(here)
 library(ggplot2)
@@ -14,14 +13,11 @@ library(vroom)
 library(knitr)
 ```
 
-
 ```{r}
 here::i_am("test-grades.Rproj")
 ```
 
 ### Question 1
-
-
 
 ```{r}
 courses <- vroom(here("data", "courses.csv"))
@@ -43,20 +39,20 @@ courses |>
 
 ```
 
-
 ### Question 3
 
+```{r}
+library(vroom)
 
+students <- vroom(here("data", "students.csv"),
+  col_types = cols(
+    id = col_integer(),
+    group = col_factor(),
+    birth_date = col_date(),
+    sex = col_factor()
+  )
+)
 
+```
 
-
-
-
-
-
-
-
-
-
-
-
+The `birth_date` column of the `students` data frame is of class `r class(students$birth_date)`. The `sex` column is of class `r class(students$sex)`.
