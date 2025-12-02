@@ -201,6 +201,23 @@ grades_full |>
 ```
 
 
+### Question 12
+
+
+
+```{r}
+grades_full |>
+  filter(!is.na(grade)) |>
+  ggplot(aes(x = grade)) +
+  geom_density() +
+  facet_wrap(vars(semester)) +
+  labs(
+    x = "Grade",
+    y = "Density",
+    title = "Distribution of grades by semester"
+  )
+
+```
 
 
 
