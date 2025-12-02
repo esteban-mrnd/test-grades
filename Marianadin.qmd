@@ -11,6 +11,7 @@ library(ggplot2)
 library(tidyr)
 library(dplyr)
 library(vroom)
+library(knitr)
 ```
 
 
@@ -25,6 +26,37 @@ here::i_am("test-grades.Rproj")
 ```{r}
 courses <- vroom(here("data", "courses.csv"))
 ```
+
+### Question 2
+
+```{r}
+
+courses |>
+  arrange(course) |>
+  rename(
+    `course name`      = course,
+    identifier         = course_id,
+    semester           = semester,
+    `number of grades` = nb_grades
+  ) |>
+  knitr::kable()
+
+```
+
+
+### Question 3
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
