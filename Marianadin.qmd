@@ -366,14 +366,106 @@ grades_wide <- student_course_avg |>
     names_from  = course,
     values_from = avg_grade
   )
-s
+
+grades_wide |>
+  select(
+    id,
+    group,
+    `Animal Lore and Totemism`,
+    `Astronomy and Celestial Navigation`
+  ) |>
+  slice_head(n = 5) |>
+  knitr::kable()
+
 ```
 
 
+### Question 20
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+grades_wide |>
+  ggplot(aes(
+    x = `Tribal Law and Customs`,
+    y = `Herbalism and Traditional Medicine`
+  )) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = "Average grade in Tribal Law and Customs",
+    y = "Average grade in Herbalism and Traditional Medicine",
+    title = "Relationship between performance in Tribal Law and Herbalism"
+  )
+
+```
 
 
+### Question 20
+
+```{r}
+cor_dm_sham_by_group <- grades_wide |>
+  summarise(
+    correlation = cor(
+      `Drumming and Music`,
+      `Shamanism and Spirit Communication`
+    ),
+    .by = group
+  )
+
+knitr::kable(cor_dm_sham_by_group)
+
+```
+
+### Question 21
+
+```{r}
+best_group <- cor_dm_sham_by_group |>
+  mutate(abs_cor = abs(correlation)) |>
+  slice_max(abs_cor, n = 1) |>
+  pull(group)
+
+grades_wide |>
+  filter(group == best_group) |>
+  ggplot(aes(
+    x = `Shamanism and Spirit Communication`,
+    y = `Drumming and Music`
+  )) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = "Average grade in Shamanism and Spirit Communication",
+    y = "Average grade in Drumming and Music",
+    title = paste(
+      "Relationship between Shamanism and Drumming in group", best_group
+    )
+  )
+
+```
+
+### Question 22
 
 
+```{r}
+
+grades_wide2 <- grades_wide |>
+  inner_join(students |> select(id, sex), by = "id")
+
+final_grades <- grades_wide2 |>
+  pivot_longer(
+    cols = -c(id, group, sex),
+    names_to  = "course",
+    values_to = "avg_grade"
+  ) |>
+  summarise(
+    final_grade = mean(avg_grade, na.rm = TRUE),
+    .by = c(id, group, sex)
+  ) |>
+  arrange(desc(final_grade))
+
+
+```
 
 
 
