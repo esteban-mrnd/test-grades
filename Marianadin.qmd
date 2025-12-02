@@ -257,3 +257,35 @@ knitr::kable(stats)
 
 
 ### Question 14
+
+
+```{r}
+grades_per_student |>
+  ggplot(aes(x = nb_grades, color = sex, fill = sex)) +
+  geom_density(alpha = 0.4) +
+  labs(
+    x = "Number of grades",
+    y = "Density",
+    color = "Sex",
+    fill = "Sex",
+    title = "Distribution of number of grades by sex"
+  )
+
+```
+
+
+### Question 15
+
+```{r}
+shamanism_counts <- grades_full |>
+  filter(course == "Shamanism and Spirit Communication") |>
+  filter(!is.na(grade)) |>
+  summarise(nb_grades = n(), .by = c(id, group))
+
+shamanism_counts |>
+  slice_head(n = 5) |>
+  knitr::kable()
+
+```
+
+
