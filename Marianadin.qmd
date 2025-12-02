@@ -88,13 +88,30 @@ grades <- vroom(here("data","grades.csv"),
 
 ```{r}
 students |>
-  count(group) |>
+  summarise(n = n(), .by = group) |>
   ggplot(aes(x = group, y = n)) +
   geom_col() +
   labs(x = "Group", y = "Number of students")
 
+
 ```
 
+### Question 6
+
+
+```{r}
+students |>
+  filter(!is.na(sex)) |>
+  ggplot(aes(x = group, fill = sex)) +
+  geom_bar(position = "fill") +
+  labs(
+    x = "Group",
+    y = "Proportion",
+    fill = "Sex"
+  )
+
+
+```
 
 
 
