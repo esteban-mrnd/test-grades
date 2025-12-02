@@ -17,6 +17,8 @@ library(knitr)
 here::i_am("test-grades.Rproj")
 ```
 
+# Introduction 
+
 ### Question 1
 
 ```{r}
@@ -56,3 +58,31 @@ students <- vroom(here("data", "students.csv"),
 ```
 
 The `birth_date` column of the `students` data frame is of class `r class(students$birth_date)`. The `sex` column is of class `r class(students$sex)`.
+
+
+### Question 4
+
+```{r}
+library(vroom)
+
+grades <- vroom(here("data","grades.csv"),
+  delim = ":",
+  na = "unknown",
+  col_types = cols(
+    id = col_integer(),
+    course_id = col_integer(),
+    grade = col_double()
+  )
+)
+
+```
+
+
+
+
+# Student population analysis
+
+
+
+
+
