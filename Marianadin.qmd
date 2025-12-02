@@ -173,6 +173,33 @@ knitr::kable(oldest)
 
 ```
 
+# Simple Grade Analysis
+
+### Question 10
+
+The data set contains `r sum(!is.na(grades$grade))` grades.
+
+### Question 11
+
+```{r}
+grades_full <- grades |>
+  inner_join(students, by = "id") |>
+  inner_join(courses, by = "course_id")
+
+grades_full |>
+  filter(course == "Storytelling and Oral Tradition", !is.na(grade)) |>
+  summarise(avg = mean(grade), .by = group) |>
+  ggplot(aes(x = group, y = avg)) +
+  geom_col() +
+  labs(
+    x = "Group",
+    y = "Average grade",
+    title = "Average grade in 'Storytelling and Oral Tradition' by group"
+  )
+
+
+```
+
 
 
 
