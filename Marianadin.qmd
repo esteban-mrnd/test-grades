@@ -135,3 +135,45 @@ students |>
 
 
 ### Question 8
+
+
+```{r}
+library(lubridate)
+library(dplyr)
+
+median_age_group <- students |>
+  mutate(
+    age = time_length(today() - birth_date, unit = "year"),
+    median_age = round(median(age), 0),
+    .by = group
+  ) |>
+  distinct(group, median_age)
+
+knitr::kable(median_age_group)
+
+```
+
+
+### Question 9
+
+
+```{r}
+library(lubridate)
+library(dplyr)
+
+oldest <- students |>
+  mutate(
+    age = time_length(today() - birth_date, unit = "year")
+  ) |>
+  slice_max(age, n = 1, by = group) |>
+  select(id, sex, age, group) |>
+  arrange(desc(age))
+
+knitr::kable(oldest)
+
+```
+
+
+
+
+
