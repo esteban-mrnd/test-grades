@@ -115,6 +115,23 @@ students |>
 
 
 
+### Question 7
+
+```{r}
+library(lubridate)
+
+students |>
+  mutate(
+    age = time_length(today() - birth_date, unit = "year")
+  ) |>
+  ggplot(aes(x = age)) +
+  geom_histogram(binwidth = 1) +
+  labs(
+    x = "Age",
+    y = "Count"
+  )
+
+```
 
 
-
+### Question 8
