@@ -2,6 +2,9 @@
 title: "Marianadin"
 author: "Esteban Marianadin"
 format: html
+execute:
+  message: false
+  warning: false
 ---
 
 ### Github Link : 
@@ -331,7 +334,7 @@ shamanism_counts |>
   )
 
 ```
-
+The average number of grades is close to 10 for every group, there is more dispersion in some groups.
 
 
 ### Question 18
@@ -354,6 +357,8 @@ shamanism_counts |>
 
 
 ```
+
+Except for male in group 15, the average stays very close to 10, the dispersion varies depending on sex in some groups (1, 9, 16, 5, 17)
 
 # Grade Analysis 
 
@@ -410,6 +415,8 @@ grades_wide |>
 ```
 
 
+The positive linear relationship observed seems to weak to draw conclusions.
+
 ### Question 21
 
 ```{r}
@@ -451,6 +458,8 @@ grades_wide |>
   )
 
 ```
+
+There is a clear negative relationship between average grades in Shamanism and Spirit Communication and Drumming and Music in group 17.
 
 ### Question 23
 
@@ -495,6 +504,8 @@ final_grades |>
 
 ```
 
+There are clear differences in the average grades of the different groups.
+
 
 ### Question 25
 
@@ -510,7 +521,7 @@ final_grades |>
   )
 
 ```
-
+In most groups the average grades of male and female students is relatively close.
 
 
 ### Question 26
@@ -648,6 +659,6 @@ age_success |>
   )
 
 ```
-
+We cannot draw any correlation between age and pass rate
 
 
