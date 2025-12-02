@@ -4,6 +4,10 @@ author: "Esteban Marianadin"
 format: html
 ---
 
+### Github Link : 
+https://github.com/esteban-mrnd/test-grades.git
+
+
 ```{r}
 library(here)
 library(ggplot2)
@@ -144,7 +148,7 @@ library(dplyr)
 median_age_group <- students |>
   mutate(
     age = time_length(today() - birth_date, unit = "year"),
-    median_age = round(median(age), 0),
+    median_age = median(age),
     .by = group
   ) |>
   distinct(group, median_age)
@@ -218,6 +222,38 @@ grades_full |>
   )
 
 ```
+# Attendance Analysis
 
 
+### Question 13
 
+```{r}
+grades_per_student <- grades_full |>
+  filter(!is.na(grade)) |>
+  summarise(nb_grades = n(), .by = c(id, group, sex))
+
+```
+
+
+```{r}
+grades_per_student |>
+  slice_head(n = 5) |>
+  knitr::kable()
+
+```
+
+```{r}
+stats <- grades_per_student |>
+  summarise(
+    minimum = min(nb_grades),
+    maximum = max(nb_grades),
+    average = mean(nb_grades),
+    median  = median(nb_grades)
+  )
+
+knitr::kable(stats)
+
+```
+
+
+### Question 14
