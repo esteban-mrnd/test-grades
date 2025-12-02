@@ -576,14 +576,78 @@ fail_but_good <- pass_table |>
 
 ```
 
-There are `r fail_but_good` students who do not pass despite having a final grade ≥ 10.
+There are `r fail_but_good` students who do not pass despite having a final grade superior to 10.
+
+
 
 ### Question 28
 
 
+```{r}
+pass_rate <- pass_table |>
+  summarise(
+    pass_rate = mean(pass),
+    .by = group
+  )
+
+
+pass_rate |>
+  ggplot(aes(x = group, y = pass_rate)) +
+  geom_col() +
+  labs(
+    x = "Group",
+    y = "Pass rate",
+    title = "Pass rate per group"
+  )
+
+
+```
+
+### Question 29
+
+```{r}
+fail_by_course <- student_course_avg |>
+  filter(course_avg < 5) |>
+  summarise(
+    nb_students_below_5 = n(),
+    .by = course
+  )
+
+
+knitr::kable(fail_by_course)
+
+```
+
+Tribal Laws and Custom is the only course where students have averages below 5.
+
+
+### Question 30
 
 
 
+```{r}
+age_success <- pass_table |>
+  inner_join(students |> select(id, birth_date), by = "id") |>
+  mutate(
+    age = floor(time_length(today() - birth_date, unit = "year")) # I used floor to get a smoother graph
+  ) |>
+  summarise(
+    success_rate = mean(pass),
+    .by = age
+  )
+
+
+age_success |>
+  ggplot(aes(x = age, y = success_rate)) +
+  geom_line() +
+  geom_point() +
+  labs(
+    x = "Age",
+    y = "Success rate",
+    title = "Pass rate as a function of age"
+  )
+
+```
 
 
 
